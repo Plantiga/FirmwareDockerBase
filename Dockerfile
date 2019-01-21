@@ -22,7 +22,9 @@ RUN apt-get update -y \
 	lcov \
 	ninja-build \
 	software-properties-common \
-	wget
+	wget \ 
+	git \
+	srecord 
 
 #Have to split out these installs because they must be installed after dependencies in the previous RUN
 #This may no longer be true after removing gcc-arm-none-eabi from apt-get install list and running autoremove

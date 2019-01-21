@@ -17,6 +17,7 @@ RUN apt-get update -y \
 	doxygen \
 	gcc-multilib \
 	g++-multilib \
+	g++-7 \
 	graphviz  \
 	iwyu \
 	lcov \

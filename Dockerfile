@@ -14,18 +14,17 @@ RUN apt-get update -y \
 	clang-format-6.0 \
 	clang-tidy-6.0 \
 	cmake \
+	default-jdk \
 	doxygen \
-	gcc-multilib \
-	g++-multilib \
-	g++-7 \
-	graphviz  \
+	graphviz \
 	iwyu \
 	lcov \
 	ninja-build \
 	software-properties-common \
 	wget \ 
 	git \
-	srecord 
+	srecord \
+	zip
 
 #Have to split out these installs because they must be installed after dependencies in the previous RUN
 #This may no longer be true after removing gcc-arm-none-eabi from apt-get install list and running autoremove
@@ -40,14 +39,17 @@ RUN apt-get install -y \
 RUN add-apt-repository ppa:team-gcc-arm-embedded/ppa \
 	&& apt-get update -y \
 	&& apt-get autoremove -y \
-	&& apt-get install -y gcc-arm-embedded
+	&& apt-get install -y \
+	gcc-arm-embedded \
+	gcc-multilib \ 
+	gcc-7 \
+	g++-multilib \
+	g++-7
 
 #PlantUML Install
 #Uncomment next line when we want to use the documentation from PlantUML
-#RUN apt-get install -y default-jdk
 # RUN mkdir ~/java \
-# 	&& wget http://plantuml.sourceforge.net/download.html
-# RUN mv download.html ~/java/plantuml.jar
+# 	&& wget -O ~/java/plantuml.jar http://plantuml.sourceforge.net/download
 # ENV PLANTUML_DIR="~/java"
 
 #Clean up apt lists to reduce image size.

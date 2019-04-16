@@ -1,6 +1,6 @@
 #purpose: Provide a Docker container that does not require extra setup before cmake commands
 #         for the development of firmware for Plantiga products.
-#version: 0.50b
+#version: 0.60b
 #author: Andrew Hollister
 #contributor: Paul Helter (provided base environment_setup to base this off of)
 #SEE: ~/cmake/environment_setup.sh for source
@@ -8,7 +8,7 @@
 FROM ubuntu:18.04
 
 #Following Docker recommended convention for custom image based on maintained image
-#GCC and required items, multi-lib for 32-bit support, coverage tool, (default-jdk can be entered here as well)
+#GCC and required items, multi-lib for 32-bit support, coverage tool
 RUN apt-get update -y \
 	&& apt-get install -y \
 	clang-format-6.0 \
@@ -16,14 +16,14 @@ RUN apt-get update -y \
 	cmake \
 	default-jdk \
 	doxygen \
+	git \
 	graphviz \
 	iwyu \
 	lcov \
 	ninja-build \
 	software-properties-common \
-	wget \ 
-	git \
 	srecord \
+	wget \ 
 	zip
 
 #Have to split out these installs because they must be installed after dependencies in the previous RUN
@@ -35,6 +35,12 @@ RUN apt-get install -y \
 	libc6-dev-armel-cross \
 	libncurses5-dev
 
+#Install Protobuf and compilers
+RUN apt-get install -y \
+	libprotobuf-dev \
+	protobuf-compiler \
+	python-protobuf
+
 #Crosscompiler Install with cleaning
 RUN add-apt-repository ppa:team-gcc-arm-embedded/ppa \
 	&& apt-get update -y \
@@ -45,12 +51,6 @@ RUN add-apt-repository ppa:team-gcc-arm-embedded/ppa \
 	gcc-7 \
 	g++-multilib \
 	g++-7
-
-#PlantUML Install
-#Uncomment next line when we want to use the documentation from PlantUML
-# RUN mkdir ~/java \
-# 	&& wget -O ~/java/plantuml.jar http://plantuml.sourceforge.net/download
-# ENV PLANTUML_DIR="~/java"
 
 #Clean up apt lists to reduce image size.
 RUN rm -r /var/lib/apt/lists/*

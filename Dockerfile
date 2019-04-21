@@ -13,6 +13,7 @@ RUN apt-get update -y \
 	&& apt-get install -y \
 	clang-format-6.0 \
 	clang-tidy-6.0 \
+	clang-7 \
 	cmake \
 	default-jdk \
 	doxygen \

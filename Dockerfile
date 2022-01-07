@@ -74,3 +74,9 @@ RUN apt-get update -y \
 	make install && \
 	apt-get autoclean -y && apt-get --purge --yes autoremove && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+RUN apt-get update -y \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y -o Acquire::Retries=10 --no-install-recommends \
+	openssh-client && \
+	apt-get autoclean -y && apt-get --purge --yes autoremove && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
